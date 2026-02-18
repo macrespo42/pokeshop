@@ -30,7 +30,7 @@ class Card(BaseModel):
     edition: str
     physical_state: PhysicalState
     type: str
-    holo: bool
+    holo: bool = False
     illustration: Optional[str]
-    created_at: datetime.datetime
-    status: Status
+    created_at: datetime.datetime = datetime.datetime.now()
+    status: Status = Status.AVAILABLE
