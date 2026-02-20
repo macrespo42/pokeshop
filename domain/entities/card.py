@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+import datetime
 from enum import StrEnum
 from typing import Optional
-import datetime
+
+from pydantic import BaseModel
 
 
 class Rarity(StrEnum):
@@ -28,13 +29,28 @@ class Status(StrEnum):
     RETIRED = "Retired"
 
 
+class Edition(BaseModel):
+    code: str
+    name: str
+    years: int
+
+
 class Card(BaseModel):
     name: str
     rarity: Rarity
-    edition: str
+    edition: Edition
     physical_state: PhysicalState
     type: str
     holo: bool = False
     illustration: Optional[str]
     created_at: datetime.datetime = datetime.datetime.now()
     status: Status = Status.AVAILABLE
+
+    def make_available(self):
+        if self.status == Status.SOLD:
+            raise ValueError("Can't make a solded carte Available")
+        self.status = Status.AVAILABLE
+
+    def sell(self):
+        if self.status == Status.SOLD:
+            raise ValueError("Card already solded")
