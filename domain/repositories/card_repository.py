@@ -17,5 +17,5 @@ class CardRepository(ABC):
         pass
 
     @abstractmethod
-    def remove(self, name: str) -> Card:
+    def remove(self, card_id: str) -> Card:
         pass
