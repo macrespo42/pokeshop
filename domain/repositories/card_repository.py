@@ -9,7 +9,7 @@ class CardRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_name(self, name: str) -> Card:
+    def get_by_id(self, card_id: str) -> Card:
         pass
 
     @abstractmethod

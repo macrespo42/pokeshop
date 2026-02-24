@@ -1,6 +1,7 @@
 import dataclasses
 import datetime
 from typing import Optional, ClassVar
+import uuid
 
 from dataclasses import dataclass
 from dataclasses import field
@@ -79,10 +80,24 @@ class Card:
     edition: Edition
     physical_state: PhysicalState
     type: PokemonType
+    status: Status
     illustration: Optional[str]
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
     is_holo: bool = False
     created_at: datetime.datetime = field(default_factory=datetime.datetime.now)
-    status: Status = Status
+
+    def __post_init__(self):
+        if self.status.value != "available":
+            raise ValueError("Card must be available when added to the catalog")
+
+        if not self.name:
+            raise ValueError("Card must have a name")
+        if not self.rarity:
+            raise ValueError("Card must have a rarity")
+        if not self.edition:
+            raise ValueError("Card must have a edition")
+        if not self.physical_state:
+            raise ValueError("Card must have a physical state")
 
     def make_available(self):
         if self.status.value == "sold":
@@ -90,5 +105,8 @@ class Card:
         return dataclasses.replace(self, status=Status("available"))
 
     def sell(self):
-        if self.status == "sold":
+        if self.status.value == "sold":
             raise ValueError("Card already sold")
+        if self.status.value == "retired":
+            raise ValueError("Can't sell a retired card")
+        return dataclasses.replace(self, status=Status("sold"))
