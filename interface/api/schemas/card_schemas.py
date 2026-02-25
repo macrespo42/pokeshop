@@ -21,6 +21,15 @@ class CardCreateRequest(BaseModel):
 class CardGetRequest(BaseModel):
     id: str
 
+class SearchCardRequest(BaseModel):
+    name: Optional[str]
+    rarity: Optional[str]
+    edition: Optional[Edition]
+    physical_state: Optional[str]
+    type: Optional[str]
+    status: Optional[str]
+    illustration: Optional[str]
+
 class CardResponse(BaseModel):
     id: str
     name: str
