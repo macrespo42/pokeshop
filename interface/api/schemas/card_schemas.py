@@ -8,6 +8,7 @@ class Edition(BaseModel):
     name: str
     year: int
 
+
 class CardCreateRequest(BaseModel):
     name: str
     rarity: str
@@ -16,10 +17,12 @@ class CardCreateRequest(BaseModel):
     type: str
     status: str
     illustration: Optional[str]
-    is_holo: bool =  False
+    is_holo: bool = False
+
 
 class CardGetRequest(BaseModel):
     id: str
+
 
 class SearchCardRequest(BaseModel):
     name: Optional[str]
@@ -29,6 +32,7 @@ class SearchCardRequest(BaseModel):
     type: Optional[str]
     status: Optional[str]
     illustration: Optional[str]
+
 
 class CardResponse(BaseModel):
     id: str

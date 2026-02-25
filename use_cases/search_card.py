@@ -4,6 +4,7 @@ from typing import Optional
 from domain.entities.card import Card
 from domain.repositories.card_repository import CardRepository, SearchFilter
 
+
 @dataclass(frozen=True)
 class SearchCardInput:
     name: Optional[str] = None
@@ -15,8 +16,8 @@ class SearchCardInput:
     type: Optional[str] = None
     status: Optional[str] = None
 
-class SearchCard:
 
+class SearchCard:
     def __init__(self, card_repository: CardRepository) -> None:
         self.repository = card_repository
 

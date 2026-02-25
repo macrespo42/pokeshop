@@ -54,9 +54,26 @@ class Edition:
 
 @dataclass(frozen=True)
 class PokemonType:
-    _valid: ClassVar[set] = {"normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground",
-                             "flying",
-                             "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy"}
+    _valid: ClassVar[set] = {
+        "normal",
+        "fire",
+        "water",
+        "electric",
+        "grass",
+        "ice",
+        "fighting",
+        "poison",
+        "ground",
+        "flying",
+        "psychic",
+        "bug",
+        "rock",
+        "ghost",
+        "dragon",
+        "dark",
+        "steel",
+        "fairy",
+    }
     value: str
 
     def __post_init__(self):

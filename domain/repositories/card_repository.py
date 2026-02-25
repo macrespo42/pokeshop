@@ -4,6 +4,7 @@ from typing import Optional
 
 from domain.entities.card import Card
 
+
 @dataclass(frozen=True)
 class SearchFilter:
     name: Optional[str] = None

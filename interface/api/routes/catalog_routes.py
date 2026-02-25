@@ -16,7 +16,9 @@ def card_to_response(card: Card) -> CardResponse:
         name=card.name.value,
         rarity=card.rarity.value,
         type=card.type.value,
-        edition=Edition(code=card.edition.code, name=card.edition.name, year=card.edition.years),
+        edition=Edition(
+            code=card.edition.code, name=card.edition.name, year=card.edition.years
+        ),
         physical_state=card.physical_state.value,
         status=card.status.value,
         illustration=card.illustration,
@@ -46,7 +48,9 @@ def reference_card(body: CardCreateRequest, use_case: ReferenceCard):
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT)
 
 
-@router.get("/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK)
+@router.get(
+    "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
+)
 def get_card(card_id: str, use_case: GetCard):
     try:
         card = use_case.execute(card_id)
@@ -55,7 +59,11 @@ def get_card(card_id: str, use_case: GetCard):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@router.get("/cards/available", response_model=list[CardResponse], status_code=status.HTTP_200_OK)
+@router.get(
+    "/cards/available",
+    response_model=list[CardResponse],
+    status_code=status.HTTP_200_OK,
+)
 def get_available_card(use_case: SearchCard):
     try:
         available_card = use_case.execute()
@@ -64,7 +72,9 @@ def get_available_card(use_case: SearchCard):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@router.get("/cards/search", response_model=list[CardResponse], status_code=status.HTTP_200_OK)
+@router.get(
+    "/cards/search", response_model=list[CardResponse], status_code=status.HTTP_200_OK
+)
 def search_card(filters: SearchCardInput, use_case: SearchCard):
     try:
         cards_inputs = SearchCardInput(
@@ -82,7 +92,10 @@ def search_card(filters: SearchCardInput, use_case: SearchCard):
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@router.patch("/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK)
+
+@router.patch(
+    "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
+)
 def withdraw_card(card_id: str, use_case: WithdrawCard):
     try:
         card = use_case.execute(card_id)

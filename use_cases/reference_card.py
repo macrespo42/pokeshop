@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 
-from domain.entities.card import Card, Name, Rarity, Edition, PhysicalState, PokemonType, Status
+from domain.entities.card import (
+    Card,
+    Name,
+    Rarity,
+    Edition,
+    PhysicalState,
+    PokemonType,
+    Status,
+)
 from domain.repositories.card_repository import CardRepository
 
 
@@ -19,14 +27,23 @@ class ReferenceCardInput:
 
 
 class ReferenceCard:
-
     def __init__(self, card_repository: CardRepository) -> None:
         self.repository = card_repository
 
     def execute(self, card_input: ReferenceCardInput) -> Card:
-        card = Card(name=Name(card_input.name), rarity=Rarity(card_input.rarity),
-            edition=Edition(card_input.edition_code, card_input.edition_name, card_input.edition_years),
-            physical_state=PhysicalState(card_input.physical_state), type=PokemonType(card_input.type),
-            status=Status(card_input.status), illustration=card_input.illustration, is_holo=card_input.is_holo)
+        card = Card(
+            name=Name(card_input.name),
+            rarity=Rarity(card_input.rarity),
+            edition=Edition(
+                card_input.edition_code,
+                card_input.edition_name,
+                card_input.edition_years,
+            ),
+            physical_state=PhysicalState(card_input.physical_state),
+            type=PokemonType(card_input.type),
+            status=Status(card_input.status),
+            illustration=card_input.illustration,
+            is_holo=card_input.is_holo,
+        )
         self.repository.save(card)
         return card
