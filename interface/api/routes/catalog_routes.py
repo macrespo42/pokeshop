@@ -6,6 +6,7 @@ from use_cases.get_card import GetCard
 from use_cases.reference_card import ReferenceCard, ReferenceCardInput
 from use_cases.search_card import SearchCard, SearchCardInput
 from use_cases.withdrawl_card import WithdrawCard
+from use_cases.list_available_cards import ListAvailableCards
 
 router = APIRouter(prefix="/catalog", tags=["Catalog"])
 
@@ -64,7 +65,7 @@ def get_card(card_id: str, use_case: GetCard):
     response_model=list[CardResponse],
     status_code=status.HTTP_200_OK,
 )
-def get_available_card(use_case: SearchCard):
+def get_available_card(use_case: ListAvailableCards):
     try:
         available_card = use_case.execute()
         return [card_to_response(card) for card in available_card]
