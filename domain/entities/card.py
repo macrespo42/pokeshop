@@ -1,10 +1,8 @@
 import dataclasses
 import datetime
-from typing import Optional, ClassVar
 import uuid
-
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
+from typing import ClassVar, Optional
 
 
 @dataclass(frozen=True)
@@ -115,6 +113,8 @@ class Card:
             raise ValueError("Card must have a edition")
         if not self.physical_state:
             raise ValueError("Card must have a physical state")
+
+        self.make_available()
 
     def make_available(self):
         if self.status.value == "sold":
