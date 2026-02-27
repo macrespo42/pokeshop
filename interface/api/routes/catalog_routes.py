@@ -1,12 +1,19 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
+from dependencies import (
+    get_card_use_case,
+    get_list_available_card_use_case,
+    get_reference_card_use_case,
+    get_search_card_use_case,
+    get_withdrawl_card_use_case,
+)
 from domain.entities.card import Card
-from interface.api.schemas.card_schemas import CardResponse, CardCreateRequest, Edition
+from interface.api.schemas.card_schemas import CardCreateRequest, CardResponse, Edition
 from use_cases.get_card import GetCard
+from use_cases.list_available_cards import ListAvailableCards
 from use_cases.reference_card import ReferenceCard, ReferenceCardInput
 from use_cases.search_card import SearchCard, SearchCardInput
 from use_cases.withdrawl_card import WithdrawCard
-from use_cases.list_available_cards import ListAvailableCards
 
 router = APIRouter(prefix="/catalog", tags=["Catalog"])
 
@@ -29,7 +36,10 @@ def card_to_response(card: Card) -> CardResponse:
 
 
 @router.post("/cards", response_model=CardResponse, status_code=status.HTTP_201_CREATED)
-def reference_card(body: CardCreateRequest, use_case: ReferenceCard):
+def reference_card(
+    body: CardCreateRequest,
+    use_case: ReferenceCard = Depends(get_reference_card_use_case),
+):
     try:
         card_input = ReferenceCardInput(
             name=body.name,
@@ -52,7 +62,7 @@ def reference_card(body: CardCreateRequest, use_case: ReferenceCard):
 @router.get(
     "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
 )
-def get_card(card_id: str, use_case: GetCard):
+def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
     try:
         card = use_case.execute(card_id)
         return card_to_response(card)
@@ -65,7 +75,9 @@ def get_card(card_id: str, use_case: GetCard):
     response_model=list[CardResponse],
     status_code=status.HTTP_200_OK,
 )
-def get_available_card(use_case: ListAvailableCards):
+def get_available_card(
+    use_case: ListAvailableCards = Depends(get_list_available_card_use_case),
+):
     try:
         available_card = use_case.execute()
         return [card_to_response(card) for card in available_card]
@@ -76,7 +88,9 @@ def get_available_card(use_case: ListAvailableCards):
 @router.get(
     "/cards/search", response_model=list[CardResponse], status_code=status.HTTP_200_OK
 )
-def search_card(filters: SearchCardInput, use_case: SearchCard):
+def search_card(
+    filters: SearchCardInput, use_case: SearchCard = Depends(get_search_card_use_case)
+):
     try:
         cards_inputs = SearchCardInput(
             name=filters.name,
@@ -97,7 +111,9 @@ def search_card(filters: SearchCardInput, use_case: SearchCard):
 @router.patch(
     "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
 )
-def withdraw_card(card_id: str, use_case: WithdrawCard):
+def withdraw_card(
+    card_id: str, use_case: WithdrawCard = Depends(get_withdrawl_card_use_case)
+):
     try:
         card = use_case.execute(card_id)
         return card_to_response(card)

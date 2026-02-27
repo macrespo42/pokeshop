@@ -17,7 +17,7 @@ class SearchFilter:
     status: Optional[str] = None
 
 
-class CardRepository(ABC):
+class ICardRepository(ABC):
     @abstractmethod
     def save(self, card: Card) -> None:
         pass
