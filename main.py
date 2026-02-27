@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from interface.api.routes.catalog_routes import router as catalogue_router
 
+app = FastAPI(title="Pokéshop")
 
-@app.get("/")
-def hello_world():
-    return {"message": "Hello world!"}
+app.include_router(catalogue_router)
