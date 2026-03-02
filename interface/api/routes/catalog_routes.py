@@ -1,5 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
+from application.use_cases.get_card import GetCard
+from application.use_cases.list_available_cards import ListAvailableCards
+from application.use_cases.reference_card import ReferenceCard, ReferenceCardInput
+from application.use_cases.search_card import SearchCard, SearchCardInput
+from application.use_cases.withdrawl_card import WithdrawCard
 from dependencies import (
     get_card_use_case,
     get_list_available_card_use_case,
@@ -9,11 +14,6 @@ from dependencies import (
 )
 from domain.entities.card import Card
 from interface.api.schemas.card_schemas import CardCreateRequest, CardResponse, Edition
-from application.use_cases.get_card import GetCard
-from application.use_cases.list_available_cards import ListAvailableCards
-from application.use_cases.reference_card import ReferenceCard, ReferenceCardInput
-from application.use_cases.search_card import SearchCard, SearchCardInput
-from application.use_cases.withdrawl_card import WithdrawCard
 
 router = APIRouter(prefix="/catalog", tags=["Catalog"])
 
@@ -55,8 +55,10 @@ def reference_card(
         )
         card = use_case.execute(card_input)
         return card_to_response(card)
-    except ValueError:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(e)
+        )
 
 
 @router.get(
@@ -65,9 +67,11 @@ def reference_card(
 def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
     try:
         card = use_case.execute(card_id)
-        return card_to_response(card)
-    except ValueError:
+        if card:
+            return card_to_response(card)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @router.get(
@@ -80,7 +84,9 @@ def get_available_card(
 ):
     try:
         available_card = use_case.execute()
-        return [card_to_response(card) for card in available_card]
+        if available_card:
+            return [card_to_response(card) for card in available_card]
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

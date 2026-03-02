@@ -4,7 +4,7 @@ from domain.repositories.card_repository import ICardRepository
 
 class CardRepository(ICardRepository):
     def __init__(self):
-        self._cards = dict[str, Card]
+        self._cards: dict[str, Card] = {}
 
     def save(self, card: Card) -> None:
         card.make_available()
