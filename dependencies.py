@@ -1,9 +1,9 @@
 from infra.repositories.card_repository import CardRepository
-from use_cases.get_card import GetCard
-from use_cases.list_available_cards import ListAvailableCards
-from use_cases.reference_card import ReferenceCard
-from use_cases.search_card import SearchCard
-from use_cases.withdrawl_card import WithdrawCard
+from application.use_cases.get_card import GetCard
+from application.use_cases.list_available_cards import ListAvailableCards
+from application.use_cases.reference_card import ReferenceCard
+from application.use_cases.search_card import SearchCard
+from application.use_cases.withdrawl_card import WithdrawCard
 
 _repository = CardRepository()
 

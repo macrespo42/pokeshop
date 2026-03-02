@@ -1,5 +1,5 @@
 from domain.entities.card import Card
-from domain.repositories.card_repository import CardRepository
+from infra.repositories.card_repository import CardRepository
 
 
 class WithdrawCard:

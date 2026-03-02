@@ -7,7 +7,14 @@ from typing import ClassVar, Optional
 
 @dataclass(frozen=True)
 class Rarity:
-    _valid: ClassVar[set] = {"common", "uncommon", "rare", "rare_holo", "ultra_rare"}
+    _valid: ClassVar[set] = {
+        "common",
+        "uncommon",
+        "rare",
+        "rare_holo",
+        "ultra_rare",
+        "secret",
+    }
 
     value: str
 
@@ -113,8 +120,6 @@ class Card:
             raise ValueError("Card must have a edition")
         if not self.physical_state:
             raise ValueError("Card must have a physical state")
-
-        self.make_available()
 
     def make_available(self):
         if self.status.value == "sold":

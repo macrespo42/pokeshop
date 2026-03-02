@@ -9,11 +9,11 @@ from dependencies import (
 )
 from domain.entities.card import Card
 from interface.api.schemas.card_schemas import CardCreateRequest, CardResponse, Edition
-from use_cases.get_card import GetCard
-from use_cases.list_available_cards import ListAvailableCards
-from use_cases.reference_card import ReferenceCard, ReferenceCardInput
-from use_cases.search_card import SearchCard, SearchCardInput
-from use_cases.withdrawl_card import WithdrawCard
+from application.use_cases.get_card import GetCard
+from application.use_cases.list_available_cards import ListAvailableCards
+from application.use_cases.reference_card import ReferenceCard, ReferenceCardInput
+from application.use_cases.search_card import SearchCard, SearchCardInput
+from application.use_cases.withdrawl_card import WithdrawCard
 
 router = APIRouter(prefix="/catalog", tags=["Catalog"])
 

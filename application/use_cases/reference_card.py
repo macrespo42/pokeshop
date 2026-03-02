@@ -2,14 +2,14 @@ from dataclasses import dataclass
 
 from domain.entities.card import (
     Card,
-    Name,
-    Rarity,
     Edition,
+    Name,
     PhysicalState,
     PokemonType,
+    Rarity,
     Status,
 )
-from domain.repositories.card_repository import CardRepository
+from infra.repositories.card_repository import CardRepository
 
 
 @dataclass(frozen=True)

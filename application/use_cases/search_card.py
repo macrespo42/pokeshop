@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 from domain.entities.card import Card
-from domain.repositories.card_repository import CardRepository, SearchFilter
+from domain.repositories.card_repository import SearchFilter
+from infra.repositories.card_repository import CardRepository
 
 
 @dataclass(frozen=True)
