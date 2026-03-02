@@ -62,19 +62,6 @@ def reference_card(
 
 
 @router.get(
-    "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
-)
-def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
-    try:
-        card = use_case.execute(card_id)
-        if card:
-            return card_to_response(card)
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    except ValueError:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-@router.get(
     "/cards/available",
     response_model=list[CardResponse],
     status_code=status.HTTP_200_OK,
@@ -86,6 +73,19 @@ def get_available_card(
         available_card = use_case.execute()
         if available_card:
             return [card_to_response(card) for card in available_card]
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@router.get(
+    "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
+)
+def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
+    try:
+        card = use_case.execute(card_id)
+        if card:
+            return card_to_response(card)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
