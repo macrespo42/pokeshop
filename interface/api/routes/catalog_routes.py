@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from typing import Optional
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from application.use_cases.get_card import GetCard
 from application.use_cases.list_available_cards import ListAvailableCards
@@ -79,6 +81,37 @@ def get_available_card(
 
 
 @router.get(
+    "/cards/search", response_model=list[CardResponse], status_code=status.HTTP_200_OK
+)
+def search_card(
+    use_case: SearchCard = Depends(get_search_card_use_case),
+    name: Optional[str] = None,
+    rarity: Optional[str] = None,
+    edition_code: Optional[str] = None,
+    edition_name: Optional[str] = None,
+    edition_years: Optional[int] = None,
+    physical_state: Optional[str] = None,
+    card_type: Optional[str] = Query(default=None, alias="type"),
+    card_status: Optional[str] = Query(default=None, alias="status"),
+):
+    try:
+        cards_input = SearchCardInput(
+            name=name,
+            rarity=rarity,
+            edition_code=edition_code,
+            edition_name=edition_name,
+            edition_years=edition_years,
+            physical_state=physical_state,
+            type=card_type,
+            status=card_status,
+        )
+        cards = use_case.execute(cards_input)
+        return [card_to_response(card) for card in cards]
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@router.get(
     "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
 )
 def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
@@ -87,29 +120,6 @@ def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
         if card:
             return card_to_response(card)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    except ValueError:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-@router.get(
-    "/cards/search", response_model=list[CardResponse], status_code=status.HTTP_200_OK
-)
-def search_card(
-    filters: SearchCardInput, use_case: SearchCard = Depends(get_search_card_use_case)
-):
-    try:
-        cards_inputs = SearchCardInput(
-            name=filters.name,
-            rarity=filters.rarity,
-            edition_code=filters.edition_code,
-            edition_name=filters.edition_name,
-            edition_years=filters.edition_years,
-            physical_state=filters.physical_state,
-            type=filters.type,
-            status=filters.status,
-        )
-        cards = use_case.execute(cards_inputs)
-        return [card_to_response(card) for card in cards]
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
