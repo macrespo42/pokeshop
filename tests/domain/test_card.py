@@ -1,5 +1,5 @@
 import pytest
-from .card import Card, Name, Rarity, Edition, PhysicalState, PokemonType, Status
+from domain.entities.card import Card, Name, Rarity, Edition, PhysicalState, PokemonType, Status
 
 
 @pytest.fixture(name="card")
