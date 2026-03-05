@@ -1,9 +1,9 @@
 from domain.entities.card import Card
-from domain.repositories.card_repository import ICardRepository
+from infra.repositories.card_repository import CardRepository
 
 
 class GetCard:
-    def __init__(self, card_repository: ICardRepository) -> None:
+    def __init__(self, card_repository: CardRepository) -> None:
         self.repository = card_repository
 
     def execute(self, card_id: str) -> Card:
