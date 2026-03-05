@@ -55,6 +55,8 @@ class Edition:
             raise ValueError("Invalid Edition Years")
         if len(self.name) == 0 or len(self.name) > 32 or not self.name.isalpha():
             raise ValueError("Invalid Edition Name")
+        if len(self.code) == 0 or len(self.code) > 32:
+            raise ValueError("Invalid Edition Code")
 
 
 @dataclass(frozen=True)
@@ -112,12 +114,6 @@ class Card:
         if self.status.value != "available":
             raise ValueError("Card must be available when added to the catalog")
 
-        if not self.name:
-            raise ValueError("Card must have a name")
-        if not self.rarity:
-            raise ValueError("Card must have a rarity")
-        if not self.edition:
-            raise ValueError("Card must have a edition")
         if not self.physical_state:
             raise ValueError("Card must have a physical state")
 
