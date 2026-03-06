@@ -1,10 +1,10 @@
 services:
   api:
-    build: ./Dockerfile
+    build: ./
     container_name: pokeapi
-    command: fastapi run main.py --port 8080
+    command: uv run fastapi dev main.py --port 8080 --host 0.0.0.0
     ports:
-      80:8080
+      - 8080:8080
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
