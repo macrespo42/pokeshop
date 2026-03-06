@@ -3,7 +3,7 @@ from domain.repositories.card_repository import ICardRepository, SearchFilter
 
 
 class CardRepository(ICardRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._cards: dict[str, Card] = {}
 
     def save(self, card: Card) -> None:

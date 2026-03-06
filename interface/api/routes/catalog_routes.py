@@ -14,8 +14,8 @@ from dependencies import (
     get_search_card_use_case,
     get_withdrawl_card_use_case,
 )
-from domain.entities.card import Card
-from interface.api.schemas.card_schemas import CardCreateRequest, CardResponse, Edition
+from domain.entities.card import Card, Edition
+from interface.api.schemas.card_schemas import CardResponse
 
 router = APIRouter(prefix="/catalog", tags=["Catalog"])
 
@@ -27,7 +27,7 @@ def card_to_response(card: Card) -> CardResponse:
         rarity=card.rarity.value,
         type=card.type.value,
         edition=Edition(
-            code=card.edition.code, name=card.edition.name, year=card.edition.years
+            code=card.edition.code, name=card.edition.name, years=card.edition.years
         ),
         physical_state=card.physical_state.value,
         status=card.status.value,
@@ -39,19 +39,18 @@ def card_to_response(card: Card) -> CardResponse:
 
 @router.post("/cards", response_model=CardResponse, status_code=status.HTTP_201_CREATED)
 def reference_card(
-    body: CardCreateRequest,
+    body: ReferenceCardInput,
     use_case: ReferenceCard = Depends(get_reference_card_use_case),
 ):
     try:
         card_input = ReferenceCardInput(
             name=body.name,
             rarity=body.rarity,
-            edition_code=body.edition.code,
-            edition_name=body.edition.name,
-            edition_years=body.edition.year,
+            edition_code=body.edition_code,
+            edition_name=body.edition_name,
+            edition_years=body.edition_years,
             physical_state=body.physical_state,
             type=body.type,
-            status=body.status,
             illustration=body.illustration,
             is_holo=body.is_holo,
         )
@@ -72,10 +71,9 @@ def get_available_card(
     use_case: ListAvailableCards = Depends(get_list_available_card_use_case),
 ):
     try:
-        available_card = use_case.execute()
-        if available_card:
-            return [card_to_response(card) for card in available_card]
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        available_cards = use_case.execute()
+        if available_cards:
+            return [card_to_response(card) for card in available_cards]
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
