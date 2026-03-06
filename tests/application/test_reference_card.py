@@ -19,16 +19,6 @@ def test_valid_card_creation():
     assert result.status.value == "available"
 
 
-def test_create_unavailable_card():
-    card_input = make_reference_card_input(status="retired")
-    repo = FakeCardRepository()
-    use_case = ReferenceCard(repo)
-
-    with pytest.raises(ValueError) as e:
-        use_case.execute(card_input)
-    assert str(e.value) == "Card must be available when added to the catalog"
-
-
 def test_create_card_with_bad_name():
     card_input = make_reference_card_input(name="")
     repo = FakeCardRepository()

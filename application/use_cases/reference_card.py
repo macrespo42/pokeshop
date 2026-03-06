@@ -21,7 +21,6 @@ class ReferenceCardInput:
     edition_years: int
     physical_state: str
     type: str
-    status: str
     illustration: str | None
     is_holo: bool = False
 
@@ -35,15 +34,17 @@ class ReferenceCard:
             name=Name(card_input.name),
             rarity=Rarity(card_input.rarity),
             edition=Edition(
-                card_input.edition_code,
-                card_input.edition_name,
-                card_input.edition_years,
+                code=card_input.edition_code,
+                name=card_input.edition_name,
+                years=card_input.edition_years,
             ),
             physical_state=PhysicalState(card_input.physical_state),
             type=PokemonType(card_input.type),
-            status=Status(card_input.status),
+            status=Status(value="available"),
             illustration=card_input.illustration,
             is_holo=card_input.is_holo,
         )
+
         self.repository.save(card)
+
         return card

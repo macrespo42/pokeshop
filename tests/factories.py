@@ -33,7 +33,6 @@ def make_reference_card_input(**kwargs) -> ReferenceCardInput:
         edition_years=2008,
         physical_state="mint",
         type="electric",
-        status="available",
         illustration="/s3/pikachu.png",
         is_holo=True,
     )
