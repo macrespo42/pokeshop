@@ -106,16 +106,13 @@ class Card:
     type: PokemonType
     status: Status
     illustration: Optional[str]
-    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    id: str = field(default_factory=lambda: str(uuid.uuid7()))
     is_holo: bool = False
     created_at: datetime.datetime = field(default_factory=datetime.datetime.now)
 
     def __post_init__(self):
         if self.status.value != "available":
             raise ValueError("Card must be available when added to the catalog")
-
-        if not self.physical_state:
-            raise ValueError("Card must have a physical state")
 
     def make_available(self):
         if self.status.value == "sold":
