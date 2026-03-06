@@ -124,7 +124,7 @@ def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@router.patch(
+@router.delete(
     "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
 )
 def withdraw_card(
