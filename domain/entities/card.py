@@ -4,6 +4,18 @@ import uuid
 from dataclasses import dataclass, field
 from typing import ClassVar, Optional
 
+from domain.exceptions.exceptions import (
+    InvalidRarityError,
+    InvalidPhysicalStateError,
+    InvalidStatusError,
+    InvalidEditionError,
+    InvalidPokemonTypeError,
+    InvalidNameError,
+    CardAlreadySoldError,
+    CreateUnavailableCardError,
+    SellAlreadySoledCardError,
+)
+
 
 @dataclass(frozen=True)
 class Rarity:
@@ -20,7 +32,7 @@ class Rarity:
 
     def __post_init__(self):
         if self.value not in self._valid:
-            raise ValueError("Invalid Rarity")
+            raise InvalidRarityError()
 
 
 @dataclass(frozen=True)
@@ -31,7 +43,7 @@ class PhysicalState:
 
     def __post_init__(self):
         if self.value not in self._valid:
-            raise ValueError("Invalid Physical State")
+            raise InvalidPhysicalStateError()
 
 
 @dataclass(frozen=True)
@@ -41,7 +53,7 @@ class Status:
 
     def __post_init__(self):
         if self.value not in self._valid:
-            raise ValueError("Invalid Status")
+            raise InvalidStatusError()
 
 
 @dataclass(frozen=True)
@@ -52,11 +64,11 @@ class Edition:
 
     def __post_init__(self):
         if self.years < 2000:
-            raise ValueError("Invalid Edition Years")
+            raise InvalidEditionError("Invalid Edition Years")
         if len(self.name) == 0 or len(self.name) > 32 or not self.name.isalpha():
-            raise ValueError("Invalid Edition Name")
+            raise InvalidEditionError("Invalid Edition Name")
         if len(self.code) == 0 or len(self.code) > 32:
-            raise ValueError("Invalid Edition Code")
+            raise InvalidEditionError("Invalid Edition Code")
 
 
 @dataclass(frozen=True)
@@ -85,7 +97,7 @@ class PokemonType:
 
     def __post_init__(self):
         if self.value not in self._valid:
-            raise ValueError("Invalid Pokemon Type")
+            raise InvalidPokemonTypeError()
 
 
 @dataclass(frozen=True)
@@ -94,7 +106,7 @@ class Name:
 
     def __post_init__(self):
         if len(self.value) == 0 or len(self.value) > 32 or not self.value.isalpha():
-            raise ValueError("Invalid Name")
+            raise InvalidNameError()
 
 
 @dataclass(frozen=True)
@@ -112,16 +124,16 @@ class Card:
 
     def __post_init__(self):
         if self.status.value != "available":
-            raise ValueError("Card must be available when added to the catalog")
+            raise CreateUnavailableCardError()
 
     def make_available(self):
         if self.status.value == "sold":
-            raise ValueError("Can't make a sold carte Available")
+            raise CardAlreadySoldError("Can't make a sold carte Available")
         return dataclasses.replace(self, status=Status("available"))
 
     def sell(self):
         if self.status.value == "sold":
-            raise ValueError("Card already sold")
+            raise CardAlreadySoldError("Card already sold")
         if self.status.value == "retired":
-            raise ValueError("Can't sell a retired card")
+            raise SellAlreadySoledCardError()
         return dataclasses.replace(self, status=Status("sold"))

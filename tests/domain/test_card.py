@@ -9,6 +9,8 @@ from domain.entities.card import (
     Status,
 )
 
+from domain.exceptions.exceptions import CreateUnavailableCardError
+
 
 @pytest.fixture(name="card")
 def card_fixture():
@@ -25,12 +27,12 @@ def card_fixture():
 
 
 def test_given_card_when_sold_cannot_be_available(card):
-    with pytest.raises(ValueError):
+    with pytest.raises(CreateUnavailableCardError):
         card.sell()
         card.make_available()
 
 
 def test_given_card_when_sold_cannot_be_sold_again(card):
-    with pytest.raises(ValueError):
+    with pytest.raises(CreateUnavailableCardError):
         card.sell()
         card.make_available()

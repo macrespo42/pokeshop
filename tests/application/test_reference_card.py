@@ -5,6 +5,13 @@ from domain.entities.card import Card, Name
 from tests.conftest import FakeCardRepository
 from tests.factories import make_card, make_reference_card_input
 
+from domain.exceptions.exceptions import (
+    InvalidRarityError,
+    InvalidPhysicalStateError,
+    InvalidEditionError,
+    InvalidNameError,
+)
+
 
 def test_valid_card_creation():
     card_input = make_reference_card_input(name="Ditto")
@@ -24,7 +31,7 @@ def test_create_card_with_bad_name():
     repo = FakeCardRepository()
     use_case = ReferenceCard(repo)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(InvalidNameError) as e:
         use_case.execute(card_input)
     assert str(e.value) == "Invalid Name"
 
@@ -34,7 +41,7 @@ def test_create_card_with_bad_rarity():
     repo = FakeCardRepository()
     use_case = ReferenceCard(repo)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(InvalidRarityError) as e:
         use_case.execute(card_input)
     assert str(e.value) == "Invalid Rarity"
 
@@ -44,7 +51,7 @@ def test_create_card_with_bad_edition_name():
     repo = FakeCardRepository()
     use_case = ReferenceCard(repo)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(InvalidEditionError) as e:
         use_case.execute(card_input)
     assert str(e.value) == "Invalid Edition Name"
 
@@ -54,7 +61,7 @@ def test_create_card_with_bad_edition_code():
     repo = FakeCardRepository()
     use_case = ReferenceCard(repo)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(InvalidEditionError) as e:
         use_case.execute(card_input)
     assert str(e.value) == "Invalid Edition Code"
 
@@ -64,7 +71,7 @@ def test_create_card_with_bad_edition_year():
     repo = FakeCardRepository()
     use_case = ReferenceCard(repo)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(InvalidEditionError) as e:
         use_case.execute(card_input)
     assert str(e.value) == "Invalid Edition Years"
 
@@ -74,6 +81,6 @@ def test_create_card_with_bad_physical_state():
     repo = FakeCardRepository()
     use_case = ReferenceCard(repo)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(InvalidPhysicalStateError) as e:
         use_case.execute(card_input)
     assert str(e.value) == "Invalid Physical State"

@@ -27,13 +27,23 @@ class FakeCardRepository(ICardRepository):
         if search_filter.rarity is not None:
             results = [c for c in results if c.rarity.value == search_filter.rarity]
         if search_filter.edition_code is not None:
-            results = [c for c in results if c.edition.code == search_filter.edition_code]
+            results = [
+                c for c in results if c.edition.code == search_filter.edition_code
+            ]
         if search_filter.edition_name is not None:
-            results = [c for c in results if c.edition.name == search_filter.edition_name]
+            results = [
+                c for c in results if c.edition.name == search_filter.edition_name
+            ]
         if search_filter.edition_years is not None:
-            results = [c for c in results if c.edition.years == search_filter.edition_years]
+            results = [
+                c for c in results if c.edition.years == search_filter.edition_years
+            ]
         if search_filter.physical_state is not None:
-            results = [c for c in results if c.physical_state.value == search_filter.physical_state]
+            results = [
+                c
+                for c in results
+                if c.physical_state.value == search_filter.physical_state
+            ]
         if search_filter.type is not None:
             results = [c for c in results if c.type.value == search_filter.type]
         if search_filter.status is not None:

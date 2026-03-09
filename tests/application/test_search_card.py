@@ -23,6 +23,7 @@ def use_case_fixture():
 
 # --- name ---
 
+
 def test_search_card_by_existing_name(use_case):
     result = use_case.execute(SearchCardInput(name="Raichu"))
     assert result[0].name.value == "Raichu"
@@ -34,6 +35,7 @@ def test_search_card_by_bad_name(use_case):
 
 
 # --- rarity ---
+
 
 def test_search_card_by_existing_rarity(use_case):
     result = use_case.execute(SearchCardInput(rarity="rare"))
@@ -47,6 +49,7 @@ def test_search_card_by_bad_rarity(use_case):
 
 # --- edition_code ---
 
+
 def test_search_card_by_existing_edition_code(use_case):
     result = use_case.execute(SearchCardInput(edition_code="GEN2"))
     assert result[0].edition.code == "GEN2"
@@ -58,6 +61,7 @@ def test_search_card_by_bad_edition_code(use_case):
 
 
 # --- edition_name ---
+
 
 def test_search_card_by_existing_edition_name(use_case):
     result = use_case.execute(SearchCardInput(edition_name="GOLD"))
@@ -71,6 +75,7 @@ def test_search_card_by_bad_edition_name(use_case):
 
 # --- edition_years ---
 
+
 def test_search_card_by_existing_edition_years(use_case):
     result = use_case.execute(SearchCardInput(edition_years=2010))
     assert result[0].edition.years == 2010
@@ -82,6 +87,7 @@ def test_search_card_by_bad_edition_years(use_case):
 
 
 # --- physical_state ---
+
 
 def test_search_card_by_existing_physical_state(use_case):
     result = use_case.execute(SearchCardInput(physical_state="played"))
@@ -95,6 +101,7 @@ def test_search_card_by_bad_physical_state(use_case):
 
 # --- type ---
 
+
 def test_search_card_by_existing_type(use_case):
     result = use_case.execute(SearchCardInput(type="fire"))
     assert result[0].type.value == "fire"
@@ -106,6 +113,7 @@ def test_search_card_by_bad_type(use_case):
 
 
 # --- status ---
+
 
 def test_search_card_by_existing_status(use_case):
     result = use_case.execute(SearchCardInput(status="available"))
@@ -119,7 +127,10 @@ def test_search_card_by_bad_status(use_case):
 
 # --- combined ---
 
+
 def test_search_card_with_combined_criteria(use_case):
-    result = use_case.execute(SearchCardInput(name="Raichu", rarity="rare", type="fire"))
+    result = use_case.execute(
+        SearchCardInput(name="Raichu", rarity="rare", type="fire")
+    )
     assert len(result) == 1
     assert result[0].name.value == "Raichu"
