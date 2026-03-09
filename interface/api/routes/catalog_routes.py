@@ -3,13 +3,11 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from application.use_cases.get_card import GetCard
-from application.use_cases.list_available_cards import ListAvailableCards
 from application.use_cases.reference_card import ReferenceCard, ReferenceCardInput
 from application.use_cases.search_card import SearchCard, SearchCardInput
 from application.use_cases.withdrawl_card import WithdrawCard
 from dependencies import (
     get_card_use_case,
-    get_list_available_card_use_case,
     get_reference_card_use_case,
     get_search_card_use_case,
     get_withdrawl_card_use_case,
@@ -61,25 +59,8 @@ def reference_card(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(e)
         )
 
-
 @router.get(
-    "/cards/available",
-    response_model=list[CardResponse],
-    status_code=status.HTTP_200_OK,
-)
-def get_available_card(
-    use_case: ListAvailableCards = Depends(get_list_available_card_use_case),
-):
-    try:
-        available_cards = use_case.execute()
-        if available_cards:
-            return [card_to_response(card) for card in available_cards]
-    except ValueError:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-@router.get(
-    "/cards/search", response_model=list[CardResponse], status_code=status.HTTP_200_OK
+    "/cards", response_model=list[CardResponse], status_code=status.HTTP_200_OK
 )
 def search_card(
     use_case: SearchCard = Depends(get_search_card_use_case),
@@ -104,7 +85,10 @@ def search_card(
             status=card_status,
         )
         cards = use_case.execute(cards_input)
-        return [card_to_response(card) for card in cards]
+        response = []
+        if cards:
+            response = [card_to_response(card) for card in cards]
+        return response
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

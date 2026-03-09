@@ -12,7 +12,7 @@ def use_case_fixture():
     card2 = make_card(
         name=Name("Raichu"),
         rarity=Rarity("rare"),
-        edition=Edition(code="GEN2", name="GOLDSILVER", years=2010),
+        edition=Edition(code="GEN2", name="GOLD", years=2010),
         physical_state=PhysicalState("played"),
         type=PokemonType("fire"),
     )
@@ -60,8 +60,8 @@ def test_search_card_by_bad_edition_code(use_case):
 # --- edition_name ---
 
 def test_search_card_by_existing_edition_name(use_case):
-    result = use_case.execute(SearchCardInput(edition_name="GOLDSILVER"))
-    assert result[0].edition.name == "GOLDSILVER"
+    result = use_case.execute(SearchCardInput(edition_name="GOLD"))
+    assert result[0].edition.name == "GOLD"
 
 
 def test_search_card_by_bad_edition_name(use_case):

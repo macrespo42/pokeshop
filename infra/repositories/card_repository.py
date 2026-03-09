@@ -13,9 +13,6 @@ class CardRepository(ICardRepository):
     def get_by_id(self, card_id: str) -> Card | None:
         return self._cards.get(card_id)
 
-    def get_all_available(self) -> list[Card]:
-        return [v for v in self._cards.values() if v.status.value == "available"]
-
     def remove(self, card_id: str) -> Card:
         return self._cards.pop(card_id)
 

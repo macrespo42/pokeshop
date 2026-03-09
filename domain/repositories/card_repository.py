@@ -27,10 +27,6 @@ class ICardRepository(ABC):
         pass
 
     @abstractmethod
-    def get_all_available(self) -> list[Card]:
-        pass
-
-    @abstractmethod
     def remove(self, card_id: str) -> Card:
         pass
 
