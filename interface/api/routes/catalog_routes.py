@@ -59,9 +59,8 @@ def reference_card(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(e)
         )
 
-@router.get(
-    "/cards", response_model=list[CardResponse], status_code=status.HTTP_200_OK
-)
+
+@router.get("/cards", response_model=list[CardResponse], status_code=status.HTTP_200_OK)
 def search_card(
     use_case: SearchCard = Depends(get_search_card_use_case),
     name: Optional[str] = None,
