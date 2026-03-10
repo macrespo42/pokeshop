@@ -33,4 +33,5 @@ class SearchCard:
             type=search_card_input.type,
             status=search_card_input.status,
         )
+
         return self.repository.search(search_filter)

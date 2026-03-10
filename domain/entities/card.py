@@ -5,14 +5,14 @@ from dataclasses import dataclass, field
 from typing import ClassVar, Optional
 
 from domain.exceptions.exceptions import (
-    InvalidRarityError,
-    InvalidPhysicalStateError,
-    InvalidStatusError,
-    InvalidEditionError,
-    InvalidPokemonTypeError,
-    InvalidNameError,
     CardAlreadySoldError,
     CreateUnavailableCardError,
+    InvalidEditionError,
+    InvalidNameError,
+    InvalidPhysicalStateError,
+    InvalidPokemonTypeError,
+    InvalidRarityError,
+    InvalidStatusError,
     SellAlreadySoledCardError,
 )
 
@@ -129,6 +129,7 @@ class Card:
     def make_available(self):
         if self.status.value == "sold":
             raise CardAlreadySoldError("Can't make a sold carte Available")
+
         return dataclasses.replace(self, status=Status("available"))
 
     def sell(self):
@@ -136,4 +137,5 @@ class Card:
             raise CardAlreadySoldError("Card already sold")
         if self.status.value == "retired":
             raise SellAlreadySoledCardError()
+
         return dataclasses.replace(self, status=Status("sold"))

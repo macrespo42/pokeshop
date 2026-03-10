@@ -52,8 +52,11 @@ def reference_card(
             illustration=body.illustration,
             is_holo=body.is_holo,
         )
+
         card = use_case.execute(card_input)
+
         return card_to_response(card)
+
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(e)
@@ -83,11 +86,14 @@ def search_card(
             type=card_type,
             status=card_status,
         )
+
         cards = use_case.execute(cards_input)
         response = []
         if cards:
             response = [card_to_response(card) for card in cards]
+
         return response
+
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -98,8 +104,10 @@ def search_card(
 def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
     try:
         card = use_case.execute(card_id)
+
         if card:
             return card_to_response(card)
+
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -113,6 +121,8 @@ def withdraw_card(
 ):
     try:
         card = use_case.execute(card_id)
+
         return card_to_response(card)
+
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
