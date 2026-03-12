@@ -19,5 +19,5 @@ def get_search_card_use_case() -> SearchCard:
     return SearchCard(_repository)
 
 
-def get_withdrawl_card_use_case() -> WithdrawCard:
+def get_withdraw_card_use_case() -> WithdrawCard:
     return WithdrawCard(_repository)

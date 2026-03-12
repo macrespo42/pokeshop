@@ -10,7 +10,7 @@ from dependencies import (
     get_card_use_case,
     get_reference_card_use_case,
     get_search_card_use_case,
-    get_withdrawl_card_use_case,
+    get_withdraw_card_use_case,
 )
 from domain.entities.card import Card, Edition
 from interface.api.schemas.card_schemas import CardResponse
@@ -117,7 +117,7 @@ def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
     "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
 )
 def withdraw_card(
-    card_id: str, use_case: WithdrawCard = Depends(get_withdrawl_card_use_case)
+    card_id: str, use_case: WithdrawCard = Depends(get_withdraw_card_use_case)
 ):
     try:
         card = use_case.execute(card_id)
