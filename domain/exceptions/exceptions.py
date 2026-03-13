@@ -1,50 +1,50 @@
-class ApplicationException(Exception):
+class DomainException(Exception):
     def __init__(self, message: str):
         super().__init__(message)
 
 
-class InvalidRarityError(ApplicationException):
+class InvalidRarityError(DomainException):
     def __init__(self, message: str = "Invalid Rarity"):
         super().__init__(message)
 
 
-class InvalidPhysicalStateError(ApplicationException):
+class InvalidPhysicalStateError(DomainException):
     def __init__(self, message: str = "Invalid Physical State"):
         super().__init__(message)
 
 
-class InvalidEditionError(ApplicationException):
+class InvalidEditionError(DomainException):
     def __init__(self, message: str = "Invalid Edition"):
         super().__init__(message)
 
 
-class InvalidNameError(ApplicationException):
+class InvalidNameError(DomainException):
     def __init__(self, message: str = "Invalid Name"):
         super().__init__(message)
 
 
-class InvalidStatusError(ApplicationException):
+class InvalidStatusError(DomainException):
     def __init__(self, message: str = "Invalid Status"):
         super().__init__(message)
 
 
-class InvalidPokemonTypeError(ApplicationException):
+class InvalidPokemonTypeError(DomainException):
     def __init__(self, message: str = "Invalid Pokemon Type"):
         super().__init__(message)
 
 
-class CardAlreadySoldError(ApplicationException):
+class CardAlreadySoldError(DomainException):
     def __init__(self, message: str = "Card already sold"):
         super().__init__(message)
 
 
-class CreateUnavailableCardError(ApplicationException):
+class CreateUnavailableCardError(DomainException):
     def __init__(
         self, message: str = "Card must be available when added to the catalog"
     ):
         super().__init__(message)
 
 
-class SellAlreadySoledCardError(ApplicationException):
+class SellAlreadySoledCardError(DomainException):
     def __init__(self, message: str = "Can't sell a retired card"):
         super().__init__(message)
