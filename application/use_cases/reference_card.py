@@ -9,6 +9,8 @@ from domain.entities.card import (
     Rarity,
     Status,
 )
+from domain.event.card import CardReference
+from domain.event.event_publisher import IEventPublisher
 from domain.repositories.card_repository import ICardRepository
 
 
@@ -26,8 +28,11 @@ class ReferenceCardInput:
 
 
 class ReferenceCard:
-    def __init__(self, card_repository: ICardRepository) -> None:
+    def __init__(
+        self, card_repository: ICardRepository, event_publisher: IEventPublisher
+    ) -> None:
         self.repository = card_repository
+        self.event_publisher = event_publisher
 
     def execute(self, card_input: ReferenceCardInput) -> Card:
         card = Card(
@@ -46,5 +51,6 @@ class ReferenceCard:
         )
 
         self.repository.save(card)
+        self.event_publisher.publish_event(CardReference(card_id=card.id))
 
         return card
