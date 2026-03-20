@@ -1,6 +1,7 @@
 import pytest
 
 from domain.entities.card import Card
+from domain.event.event_publisher import Event, IEventPublisher
 from domain.repositories.card_repository import ICardRepository, SearchFilter
 
 
@@ -51,6 +52,16 @@ class FakeCardRepository(ICardRepository):
         return results
 
 
+class FakeEventPublisher(IEventPublisher):
+    def publish_event(self, event: Event) -> None:
+        print(f"Pushing event: {event}")
+
+
 @pytest.fixture
 def fake_repo():
     return FakeCardRepository()
+
+
+@pytest.fixture
+def fake_event_published():
+    return FakeEventPublisher()

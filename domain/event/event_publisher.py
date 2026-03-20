@@ -9,5 +9,5 @@ class Event:
 
 class IEventPublisher(ABC):
     @abstractmethod
-    def publish_event(self, event: Event):
+    def publish_event(self, event: Event) -> None:
         pass
