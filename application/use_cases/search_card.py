@@ -2,8 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from domain.entities.card import Card
-from domain.repositories.card_repository import SearchFilter
-from infra.repositories.card_repository import CardRepository
+from domain.repositories.card_repository import ICardRepository, SearchFilter
 
 
 @dataclass(frozen=True)
@@ -19,7 +18,7 @@ class SearchCardInput:
 
 
 class SearchCard:
-    def __init__(self, card_repository: CardRepository) -> None:
+    def __init__(self, card_repository: ICardRepository) -> None:
         self.repository = card_repository
 
     def execute(self, search_card_input: SearchCardInput) -> list[Card]:
