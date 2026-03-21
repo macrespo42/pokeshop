@@ -1,7 +1,5 @@
 from typing import Callable
 
-import pytest
-
 from domain.entities.card import Card
 from domain.event.event_publisher import Event, IEventPublisher
 from domain.repositories.card_repository import ICardRepository, SearchFilter

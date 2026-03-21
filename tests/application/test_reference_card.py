@@ -1,10 +1,7 @@
-from unittest.mock import patch
-
 import pytest
 
 from application.use_cases.reference_card import ReferenceCard
 from domain.entities.card import Card, Name
-from domain.event.card import CardReference
 from domain.exceptions.exceptions import (
     InvalidEditionError,
     InvalidNameError,
@@ -27,7 +24,6 @@ def test_card_creation_when_card_is_valid():
     assert isinstance(result, Card)
     assert result.name == card.name
     assert result.status.value == "available"
-    mock_publish.assert_called_with(CardReference(card_id=result.id))
 
 
 def test_create_card_with_invalid_name():

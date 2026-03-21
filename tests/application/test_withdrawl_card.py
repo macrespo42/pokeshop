@@ -1,7 +1,4 @@
-from unittest.mock import patch
-
 from application.use_cases.withdrawl_card import WithdrawCard
-from domain.event.card import CardRemoved
 from tests.conftest import FakeCardRepository, FakeEventPublisher
 from tests.factories import make_card
 
