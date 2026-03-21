@@ -15,15 +15,14 @@ from tests.conftest import FakeCardRepository, FakeEventPublisher
 from tests.factories import make_card, make_reference_card_input
 
 
-def test_valid_card_creation():
+def test_card_creation_when_card_is_valid():
     card_input = make_reference_card_input(name="Ditto")
     card = make_card(name=Name("Ditto"))
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()
     use_case = ReferenceCard(repo, event_publisher=event_publisher)
 
-    with patch.object(event_publisher, attribute="publish_event") as mock_publish:
-        result = use_case.execute(card_input)
+    result = use_case.execute(card_input)
 
     assert isinstance(result, Card)
     assert result.name == card.name
@@ -31,7 +30,7 @@ def test_valid_card_creation():
     mock_publish.assert_called_with(CardReference(card_id=result.id))
 
 
-def test_create_card_with_bad_name():
+def test_create_card_with_invalid_name():
     card_input = make_reference_card_input(name="")
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()
@@ -42,7 +41,7 @@ def test_create_card_with_bad_name():
     assert str(e.value) == "Invalid Name"
 
 
-def test_create_card_with_bad_rarity():
+def test_create_card_with_invalid_rarity():
     card_input = make_reference_card_input(rarity="")
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()
@@ -53,7 +52,7 @@ def test_create_card_with_bad_rarity():
     assert str(e.value) == "Invalid Rarity"
 
 
-def test_create_card_with_bad_edition_name():
+def test_create_card_with_invalid_edition_name():
     card_input = make_reference_card_input(edition_name="")
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()
@@ -64,7 +63,7 @@ def test_create_card_with_bad_edition_name():
     assert str(e.value) == "Invalid Edition Name"
 
 
-def test_create_card_with_bad_edition_code():
+def test_create_card_with_invalid_edition_code():
     card_input = make_reference_card_input(edition_code="")
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()
@@ -75,7 +74,7 @@ def test_create_card_with_bad_edition_code():
     assert str(e.value) == "Invalid Edition Code"
 
 
-def test_create_card_with_bad_edition_year():
+def test_create_card_with_invalid_edition_year():
     card_input = make_reference_card_input(edition_years=1999)
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()
@@ -86,7 +85,7 @@ def test_create_card_with_bad_edition_year():
     assert str(e.value) == "Invalid Edition Years"
 
 
-def test_create_card_with_bad_physical_state():
+def test_create_card_with_invalid_physical_state():
     card_input = make_reference_card_input(physical_state="")
     repo = FakeCardRepository()
     event_publisher = FakeEventPublisher()

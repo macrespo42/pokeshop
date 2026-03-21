@@ -71,3 +71,12 @@ Chaque carte du catalogue est décrite par les informations suivantes :
 
 - ***Nouvelle carte référencée*** — Informe le Stock et la Tarification qu'une nouvelle carte existe
 - ***Carte retiree*** — Informe le Stock et la Tarification qu'une carte n'est plus en vente
+
+## TODO
+
+- [ ] Gérer le cas ou l'event publish échoue
+- [ ] Renommage des tests pour un nom plus précis
+- [ ] Check du publish implem dans le fake à la place de mock
+- [ ] remove --> soft remove simplement un changement d'état
+- [ ] event concret inmemory pas rabbitmq
+- [ ] checker les règles métier certaine ne sont pas implémenter

@@ -138,4 +138,7 @@ class Card:
         if self.status.value == "retired":
             raise SellAlreadySoledCardError()
 
+    def remove_card_from_catalog(self):
+        pass
+
         return dataclasses.replace(self, status=Status("sold"))

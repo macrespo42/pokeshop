@@ -42,15 +42,8 @@ class FakeCardRepository(ICardRepository):
 
 
 class FakeEventPublisher(IEventPublisher):
+    def __init__(self):
+        self.events = []
+
     def publish_event(self, event: Event) -> None:
-        print(f"Pushing event: {event}")
-
-
-@pytest.fixture
-def fake_repo():
-    return FakeCardRepository()
-
-
-@pytest.fixture
-def fake_event_published():
-    return FakeEventPublisher()
+        self.events.append(event)
