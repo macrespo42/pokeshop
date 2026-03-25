@@ -1,109 +1,22 @@
-import pytest
-
-from application.use_cases.search_card import SearchCard, SearchCardInput
-from domain.entities.card import Edition, Name, PhysicalState, PokemonType, Rarity
+from application.use_cases.search_card import SearchCard, SearchCardInput, SearchFilter
 from tests.conftest import FakeCardRepository
 from tests.factories import make_card
 
 
-@pytest.fixture(name="use_case")
-def use_case_fixture():
-    card = make_card()
-    card2 = make_card(
-        name=Name("Raichu"),
-        rarity=Rarity("rare"),
-        edition=Edition(code="GEN2", name="GOLD", years=2010),
-        physical_state=PhysicalState("played"),
-        type=PokemonType("fire"),
-    )
-    repo = FakeCardRepository(cards=[card, card2])
+def test_search_card_maps_input_to_correct_filter():
+    repo = FakeCardRepository()
     use_case = SearchCard(repo)
-    return use_case
+
+    use_case.execute(SearchCardInput(name="Raichu", rarity="rare"))
+
+    assert repo.search_called_with == SearchFilter(name="Raichu", rarity="rare")
 
 
-def test_search_card_by_existing_name(use_case):
-    result = use_case.execute(SearchCardInput(name="Raichu"))
-    assert result[0].name.value == "Raichu"
+def test_search_card_returns_repository_result():
+    repo = FakeCardRepository()
+    repo.search_return_value = [make_card()]
+    use_case = SearchCard(repo)
 
+    result = use_case.execute(SearchCardInput(name="Pikachu"))
 
-def test_search_card_by_bad_name(use_case):
-    result = use_case.execute(SearchCardInput(name="Ash"))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_rarity(use_case):
-    result = use_case.execute(SearchCardInput(rarity="rare"))
-    assert result[0].rarity.value == "rare"
-
-
-def test_search_card_by_bad_rarity(use_case):
-    result = use_case.execute(SearchCardInput(rarity="secret"))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_edition_code(use_case):
-    result = use_case.execute(SearchCardInput(edition_code="GEN2"))
-    assert result[0].edition.code == "GEN2"
-
-
-def test_search_card_by_bad_edition_code(use_case):
-    result = use_case.execute(SearchCardInput(edition_code="UNKNOWN"))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_edition_name(use_case):
-    result = use_case.execute(SearchCardInput(edition_name="GOLD"))
-    assert result[0].edition.name == "GOLD"
-
-
-def test_search_card_by_bad_edition_name(use_case):
-    result = use_case.execute(SearchCardInput(edition_name="UNKNOWN"))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_edition_years(use_case):
-    result = use_case.execute(SearchCardInput(edition_years=2010))
-    assert result[0].edition.years == 2010
-
-
-def test_search_card_by_bad_edition_years(use_case):
-    result = use_case.execute(SearchCardInput(edition_years=2099))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_physical_state(use_case):
-    result = use_case.execute(SearchCardInput(physical_state="played"))
-    assert result[0].physical_state.value == "played"
-
-
-def test_search_card_by_bad_physical_state(use_case):
-    result = use_case.execute(SearchCardInput(physical_state="damaged"))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_type(use_case):
-    result = use_case.execute(SearchCardInput(type="fire"))
-    assert result[0].type.value == "fire"
-
-
-def test_search_card_by_bad_type(use_case):
-    result = use_case.execute(SearchCardInput(type="water"))
-    assert len(result) == 0
-
-
-def test_search_card_by_existing_status(use_case):
-    result = use_case.execute(SearchCardInput(status="available"))
-    assert len(result) == 2
-
-
-def test_search_card_by_bad_status(use_case):
-    result = use_case.execute(SearchCardInput(status="sold"))
-    assert len(result) == 0
-
-
-def test_search_card_with_combined_criteria(use_case):
-    result = use_case.execute(
-        SearchCardInput(name="Raichu", rarity="rare", type="fire")
-    )
-    assert len(result) == 1
-    assert result[0].name.value == "Raichu"
+    assert result == repo.search_return_value

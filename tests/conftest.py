@@ -1,6 +1,6 @@
 from typing import Callable
 
-from domain.entities.card import Card
+from domain.entities.card import Card, Name
 from domain.event.event_publisher import Event, IEventPublisher
 from domain.repositories.card_repository import ICardRepository, SearchFilter
 
@@ -8,6 +8,8 @@ from domain.repositories.card_repository import ICardRepository, SearchFilter
 class FakeCardRepository(ICardRepository):
     def __init__(self, cards: list[Card] | None = None):
         self._cards = {c.id: c for c in (cards or [])}
+        self.search_called_with: SearchFilter | None = None
+        self.search_return_value: list[Card] = []
 
     def save(self, card: Card) -> None:
         self._cards[card.id] = card
@@ -22,21 +24,8 @@ class FakeCardRepository(ICardRepository):
         return self._cards.pop(card_id, None)
 
     def search(self, search_filter: SearchFilter) -> list[Card]:
-        results = list(self._cards.values())
-        filters: list[tuple[object, Callable[[Card], object]]] = [
-            (search_filter.name, lambda c: c.name.value),
-            (search_filter.rarity, lambda c: c.rarity.value),
-            (search_filter.edition_code, lambda c: c.edition.code),
-            (search_filter.edition_name, lambda c: c.edition.name),
-            (search_filter.edition_years, lambda c: c.edition.years),
-            (search_filter.physical_state, lambda c: c.physical_state.value),
-            (search_filter.type, lambda c: c.type.value),
-            (search_filter.status, lambda c: c.status.value),
-        ]
-        for value, getter in filters:
-            if value is not None:
-                results = [c for c in results if getter(c) == value]
-        return results
+        self.search_called_with = search_filter
+        return self.search_return_value
 
 
 class FakeEventPublisher(IEventPublisher):

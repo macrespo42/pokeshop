@@ -78,5 +78,5 @@ Chaque carte du catalogue est décrite par les informations suivantes:
 - [x] Renommage des tests pour un nom plus précis
 - [x] Check du publish implem dans le fake à la place de mock
 - [x] remove --> soft remove simplement un changement d'état
-- [ ] event concret inmemory pas rabbitmq
+- [x] event concret inmemory pas rabbitmq
 - [x] checker les règles métier certaine ne sont pas implémenter
