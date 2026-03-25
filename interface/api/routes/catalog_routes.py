@@ -115,7 +115,6 @@ def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
 
 @router.delete(
     "/cards/{card_id}",
-    response_model=CardResponse,
     status_code=status.HTTP_204_NO_CONTENT,
 )
 def withdraw_card(
