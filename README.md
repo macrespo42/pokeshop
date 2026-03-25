@@ -2,12 +2,12 @@
 
 ## 1. Catalogue
 
-Le Catalogue est le referential des cartes proposees a la vente. Il gère l'identité de chaque carte :  
+Le Catalogue est le referential des cartes proposees a la vente. Il gère l'identité de chaque carte:  
 quel Pokemon, quelle edition, quel stat physique, quelle rareté. C'est la "fiche produit" de la boutique.
 
 ***Donnee d'une carte***
 
-Chaque carte du catalogue est décrite par les informations suivantes :
+Chaque carte du catalogue est décrite par les informations suivantes:
 
 - ***Nom du Pokemon*** -- Ex: "dracaufeu", "Pikachu", "Mewtwo"
 - ***Rareté*** — Le niveau de rareté imprime sur la carte
@@ -32,13 +32,13 @@ Chaque carte du catalogue est décrite par les informations suivantes :
 
 ***États physiques***
 
-| Etat      | Description                                    |
-|-----------|------------------------------------------------|
-| Mint      | Carte les plus courantes                       |
-| Near Mint | Cartes intermediaire                           |
-| Excellent | Carte recherchees                              |
-| Played    | Carte rare avec effet brillant                 |
-| Damaged   | Cartes premium (EX,GX,V,VMAX                   |
+| Etat      | Description                    |
+|-----------|--------------------------------|
+| Mint      | Carte les plus courantes       |
+| Near Mint | Cartes intermediaire           |
+| Excellent | Carte recherchees              |
+| Played    | Carte rare avec effet brillant |
+| Damaged   | Cartes premium (EX,GX,V,VMAX   |
 
 ***Status d'une carte***
 
@@ -75,8 +75,8 @@ Chaque carte du catalogue est décrite par les informations suivantes :
 ## TODO
 
 - [ ] Gérer le cas ou l'event publish échoue
-- [ ] Renommage des tests pour un nom plus précis
-- [ ] Check du publish implem dans le fake à la place de mock
-- [ ] remove --> soft remove simplement un changement d'état
+- [x] Renommage des tests pour un nom plus précis
+- [x] Check du publish implem dans le fake à la place de mock
+- [x] remove --> soft remove simplement un changement d'état
 - [ ] event concret inmemory pas rabbitmq
-- [ ] checker les règles métier certaine ne sont pas implémenter
+- [x] checker les règles métier certaine ne sont pas implémenter

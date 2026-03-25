@@ -13,7 +13,9 @@ from domain.exceptions.exceptions import (
     InvalidPokemonTypeError,
     InvalidRarityError,
     InvalidStatusError,
-    SellAlreadySoledCardError,
+    RemoveAlreadySoldCardError,
+    RemoveReservedCardError,
+    SellAlreadySoldCardError,
 )
 
 
@@ -122,10 +124,6 @@ class Card:
     is_holo: bool = False
     created_at: datetime.datetime = field(default_factory=datetime.datetime.now)
 
-    def __post_init__(self):
-        if self.status.value != "available":
-            raise CreateUnavailableCardError()
-
     def make_available(self):
         if self.status.value == "sold":
             raise CardAlreadySoldError("Can't make a sold carte Available")
@@ -136,9 +134,13 @@ class Card:
         if self.status.value == "sold":
             raise CardAlreadySoldError("Card already sold")
         if self.status.value == "retired":
-            raise SellAlreadySoledCardError()
+            raise SellAlreadySoldCardError()
 
     def remove_card_from_catalog(self):
-        pass
-
-        return dataclasses.replace(self, status=Status("sold"))
+        if self.status.value == "sold":
+            raise RemoveAlreadySoldCardError()
+        if self.status.value == "reserved":
+            raise RemoveReservedCardError()
+        if self.status.value == "retired":
+            return self
+        return dataclasses.replace(self, status=Status("retired"))

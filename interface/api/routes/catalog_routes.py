@@ -114,7 +114,9 @@ def get_card(card_id: str, use_case: GetCard = Depends(get_card_use_case)):
 
 
 @router.delete(
-    "/cards/{card_id}", response_model=CardResponse, status_code=status.HTTP_200_OK
+    "/cards/{card_id}",
+    response_model=CardResponse,
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 def withdraw_card(
     card_id: str, use_case: WithdrawCard = Depends(get_withdraw_card_use_case)
@@ -122,7 +124,7 @@ def withdraw_card(
     try:
         card = use_case.execute(card_id)
 
-        return card_to_response(card)
-
+        if not card:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

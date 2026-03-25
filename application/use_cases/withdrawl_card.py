@@ -11,8 +11,11 @@ class WithdrawCard:
         self.repository = card_repository
         self.event_publisher = event_publisher
 
-    def execute(self, card_id: str) -> Card:
-        removed = self.repository.remove(card_id)
-        if removed:
-            self.event_publisher.publish_event(CardRemoved(card_id=card_id))
-        return removed
+    def execute(self, card_id: str) -> Card | None:
+        card = self.repository.get_by_id(card_id)
+        if card:
+            retired_card = card.remove_card_from_catalog()
+            self.repository.save(retired_card)
+            if retired_card is not card:
+                self.event_publisher.publish_event(CardRemoved(card_id=card_id))
+        return card

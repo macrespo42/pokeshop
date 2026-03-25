@@ -7,14 +7,10 @@ class CardRepository(ICardRepository):
         self._cards: dict[str, Card] = {}
 
     def save(self, card: Card) -> None:
-        card.make_available()
         self._cards[card.id] = card
 
     def get_by_id(self, card_id: str) -> Card | None:
         return self._cards.get(card_id)
-
-    def remove(self, card_id: str) -> Card:
-        return self._cards.pop(card_id)
 
     def search(self, search_filter: SearchFilter) -> list[Card]:
         filters = [

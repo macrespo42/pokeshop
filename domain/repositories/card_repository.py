@@ -27,9 +27,5 @@ class ICardRepository(ABC):
         pass
 
     @abstractmethod
-    def remove(self, card_id: str) -> Card:
-        pass
-
-    @abstractmethod
     def search(self, search_filter: SearchFilter) -> list[Card]:
         pass
