@@ -1,6 +1,4 @@
-from typing import Callable
-
-from domain.entities.card import Card, Name
+from domain.entities.card import Card
 from domain.event.event_publisher import Event, IEventPublisher
 from domain.repositories.card_repository import ICardRepository, SearchFilter
 
@@ -16,12 +14,6 @@ class FakeCardRepository(ICardRepository):
 
     def get_by_id(self, card_id: str) -> Card | None:
         return self._cards.get(card_id)
-
-    def get_all_available(self) -> list[Card]:
-        return [c for c in self._cards.values() if c.status.value == "available"]
-
-    def remove(self, card_id: str) -> Card:
-        return self._cards.pop(card_id, None)
 
     def search(self, search_filter: SearchFilter) -> list[Card]:
         self.search_called_with = search_filter
