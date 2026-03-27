@@ -6,7 +6,6 @@ from typing import ClassVar, Optional
 
 from domain.exceptions.exceptions import (
     CardAlreadySoldError,
-    CreateUnavailableCardError,
     InvalidEditionError,
     InvalidNameError,
     InvalidPhysicalStateError,

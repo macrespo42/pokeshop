@@ -1,6 +1,6 @@
 from application.use_cases.get_card import GetCard
-from tests.conftest import FakeCardRepository
 from tests.factories import make_card
+from tests.fakes import FakeCardRepository
 
 
 def test_get_card_returns_card_by_id_with_existing_card():

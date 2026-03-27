@@ -1,6 +1,6 @@
 from application.use_cases.search_card import SearchCard, SearchCardInput, SearchFilter
-from tests.conftest import FakeCardRepository
 from tests.factories import make_card
+from tests.fakes import FakeCardRepository
 
 
 def test_search_card_maps_input_to_correct_filter():
