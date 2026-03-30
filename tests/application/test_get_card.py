@@ -3,7 +3,7 @@ from tests.factories import make_card
 from tests.fakes import FakeCardRepository
 
 
-def test_get_card_returns_card_by_id_with_existing_card():
+def test_get_card_should_return_a_card_when_card_found():
     card = make_card()
     repo = FakeCardRepository(cards=[card])
     use_case = GetCard(repo)

@@ -27,7 +27,9 @@ def use_case(repo, event_publisher):
     return ReferenceCard(card_repository=repo, event_publisher=event_publisher)
 
 
-def test_card_creation_when_card_is_valid(use_case, event_publisher):
+def test_card_creation_when_card_is_valid_should_publish_event_and_return_created_card(
+    use_case, event_publisher
+):
     card_input = make_reference_card_input(name="Ditto")
     card = make_card(name=Name(value="Ditto"))
 
@@ -39,7 +41,7 @@ def test_card_creation_when_card_is_valid(use_case, event_publisher):
     assert len(event_publisher.events) == 1
 
 
-def test_create_card_with_invalid_name(use_case):
+def test_create_card_with_invalid_name_should_raise_an_invalid_name_exception(use_case):
     card_input = make_reference_card_input(name="")
 
     with pytest.raises(expected_exception=InvalidNameError) as e:
@@ -47,7 +49,9 @@ def test_create_card_with_invalid_name(use_case):
     assert str(e.value) == "Invalid Name"
 
 
-def test_create_card_with_invalid_rarity(use_case):
+def test_create_card_with_invalid_rarity_should_raise_an_invalid_rarity_exception(
+    use_case,
+):
     card_input = make_reference_card_input(rarity="")
 
     with pytest.raises(expected_exception=InvalidRarityError) as e:
@@ -55,7 +59,9 @@ def test_create_card_with_invalid_rarity(use_case):
     assert str(e.value) == "Invalid Rarity"
 
 
-def test_create_card_with_invalid_edition_name(use_case):
+def test_create_card_with_invalid_edition_name_should_raise_an_invalid_edition_name_exception(
+    use_case,
+):
     card_input = make_reference_card_input(edition_name="")
 
     with pytest.raises(expected_exception=InvalidEditionError) as e:
@@ -63,7 +69,9 @@ def test_create_card_with_invalid_edition_name(use_case):
     assert str(e.value) == "Invalid Edition Name"
 
 
-def test_create_card_with_invalid_edition_code(use_case):
+def test_create_card_with_invalid_edition_code_should_raise_an_invalid_edition_code_exception(
+    use_case,
+):
     card_input = make_reference_card_input(edition_code="")
 
     with pytest.raises(expected_exception=InvalidEditionError) as e:
@@ -71,7 +79,9 @@ def test_create_card_with_invalid_edition_code(use_case):
     assert str(e.value) == "Invalid Edition Code"
 
 
-def test_create_card_with_invalid_edition_year(use_case):
+def test_create_card_with_invalid_edition_year_should_raise_and_invalid_edition_years_exception(
+    use_case,
+):
     card_input = make_reference_card_input(edition_years=1999)
 
     with pytest.raises(expected_exception=InvalidEditionError) as e:
@@ -79,7 +89,9 @@ def test_create_card_with_invalid_edition_year(use_case):
     assert str(e.value) == "Invalid Edition Years"
 
 
-def test_create_card_with_invalid_physical_state(use_case):
+def test_create_card_with_invalid_physical_state_should_raise_an_invalid_physical_state_exception(
+    use_case,
+):
     card_input = make_reference_card_input(physical_state="")
 
     with pytest.raises(expected_exception=InvalidPhysicalStateError) as e:
