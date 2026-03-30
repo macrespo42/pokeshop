@@ -14,8 +14,8 @@ class WithdrawCard:
     def execute(self, card_id: str) -> Card | None:
         card = self.repository.get_by_id(card_id)
         if card:
-            retired_card = card.remove_card_from_catalog()
-            self.repository.save(retired_card)
-            if retired_card is not card:
+            removed_card = card.remove_card_from_catalog()
+            self.repository.save(removed_card)
+            if removed_card is not card:
                 self.event_publisher.publish_event(CardRemoved(card_id=card_id))
         return card

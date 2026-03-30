@@ -46,7 +46,7 @@ class CreateUnavailableCardError(DomainException):
 
 
 class SellAlreadySoldCardError(DomainException):
-    def __init__(self, message: str = "Can't sell a retired card"):
+    def __init__(self, message: str = "Can't sell a removed card"):
         super().__init__(message)
 
 

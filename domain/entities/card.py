@@ -49,7 +49,7 @@ class PhysicalState:
 
 @dataclass(frozen=True)
 class Status:
-    _valid: ClassVar[set] = {"available", "reserved", "sold", "retired"}
+    _valid: ClassVar[set] = {"available", "reserved", "sold", "removed"}
     value: str
 
     def __post_init__(self):
@@ -132,7 +132,7 @@ class Card:
     def sell(self):
         if self.status.value == "sold":
             raise CardAlreadySoldError("Card already sold")
-        if self.status.value == "retired":
+        if self.status.value == "removed":
             raise SellAlreadySoldCardError()
 
     def remove_card_from_catalog(self):
@@ -140,6 +140,6 @@ class Card:
             raise RemoveAlreadySoldCardError()
         if self.status.value == "reserved":
             raise RemoveReservedCardError()
-        if self.status.value == "retired":
+        if self.status.value == "removed":
             return self
-        return dataclasses.replace(self, status=Status("retired"))
+        return dataclasses.replace(self, status=Status("removed"))

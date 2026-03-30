@@ -22,7 +22,7 @@ def test_withdraw_existing_and_available_card_should_publish_an_event():
 
 
 def test_withdraw_when_already_removed_card_should_not_publish_event():
-    card = make_card(status=Status(value="retired"))
+    card = make_card(status=Status(value="removed"))
     repo = FakeCardRepository(cards=[card])
     event_publisher = FakeEventPublisher()
     use_case = WithdrawCard(card_repository=repo, event_publisher=event_publisher)

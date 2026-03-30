@@ -78,7 +78,7 @@ Chaque carte du catalogue est décrite par les informations suivantes:
 - [x] Renommage des tests pour un nom plus précis
 - [x] Dedup appel de execute dans withdraw card test
 - [ ] Delete renvoie 204 sur not found donc plus besoin de renvoyer Card | None
-- [ ] rename retired en remove
+- [x] rename retired en remove
 - [x] Check du publish implem dans le fake à la place de mock
 - [x] remove --> soft remove simplement un changement d'état
 - [x] event concret inmemory pas rabbitmq
