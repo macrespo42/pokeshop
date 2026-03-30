@@ -1,4 +1,3 @@
-from domain.entities.card import Card
 from domain.event.card import CardRemoved
 from domain.event.event_publisher import IEventPublisher
 from domain.repositories.card_repository import ICardRepository
@@ -11,11 +10,10 @@ class WithdrawCard:
         self.repository = card_repository
         self.event_publisher = event_publisher
 
-    def execute(self, card_id: str) -> Card | None:
+    def execute(self, card_id: str) -> None:
         card = self.repository.get_by_id(card_id)
         if card:
             removed_card = card.remove_card_from_catalog()
             self.repository.save(removed_card)
             if removed_card is not card:
                 self.event_publisher.publish_event(CardRemoved(card_id=card_id))
-        return card

@@ -121,9 +121,6 @@ def withdraw_card(
     card_id: str, use_case: WithdrawCard = Depends(get_withdraw_card_use_case)
 ):
     try:
-        card = use_case.execute(card_id)
-
-        if not card:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        use_case.execute(card_id)
     except ValueError:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
