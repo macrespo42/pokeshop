@@ -17,6 +17,24 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - rabbitmq_log:/var/log/rabbitmq
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    ports:
+      - '5432:5432'
+    volumes:
+      - data:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: pokeshop
+      POSTGRES_PASSWORD: pokeshop
+      POSTGRES_DB: pokeshop
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 volumes:
   rabbitmq_data:
   rabbitmq_log:
+  data: {}
