@@ -1,6 +1,8 @@
+import os
 from typing import Any
 
 import psycopg2
+from dotenv import load_dotenv
 
 from domain.entities.card import (
     Card,
@@ -14,7 +16,7 @@ from domain.entities.card import (
 from domain.repositories.card_repository import ICardRepository, SearchFilter
 
 
-class CardRepository(ICardRepository):
+class InMemoryCardRepository(ICardRepository):
     def __init__(self) -> None:
         self._cards: dict[str, Card] = {}
 
@@ -46,11 +48,13 @@ class CardRepository(ICardRepository):
 
 
 class PostgresCardRepository(ICardRepository):
-    POSTGRES_USER = "pokeshop"
-    POSTGRES_PASSWORD = "pokeshop"
-    POSTGRES_DB = "pokeshop"
-    DB_HOST = "db"
-    DB_PORT = "5432"
+    load_dotenv()
+
+    POSTGRES_USER: str = os.getenv("POSTGRES_USER") or ""
+    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD") or ""
+    POSTGRES_DB: str = os.getenv("POSTGRES_DB") or ""
+    DB_HOST: str = os.getenv("DB_HOST") or ""
+    DB_PORT: str = os.getenv("DB_PORT") or ""
 
     def _row_to_card(self, row: tuple[Any, ...] | None) -> Card | None:
         if row is None:

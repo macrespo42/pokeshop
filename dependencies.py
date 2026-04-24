@@ -3,9 +3,9 @@ from application.use_cases.reference_card import ReferenceCard
 from application.use_cases.search_card import SearchCard
 from application.use_cases.withdrawl_card import WithdrawCard
 from infra.events.event_publisher import InMemoryEventPublisher
-from infra.repositories.card_repository import CardRepository
+from infra.repositories.card_repository import InMemoryCardRepository
 
-_repository = CardRepository()
+_repository = InMemoryCardRepository()
 _event_publisher = InMemoryEventPublisher()
 
 

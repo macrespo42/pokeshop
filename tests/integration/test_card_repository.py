@@ -2,13 +2,13 @@ import pytest
 
 from domain.entities.card import Name, Rarity, Status
 from domain.repositories.card_repository import SearchFilter
-from infra.repositories.card_repository import CardRepository
+from infra.repositories.card_repository import InMemoryCardRepository
 from tests.factories import make_card
 
 
 @pytest.fixture
-def repo() -> CardRepository:
-    return CardRepository()
+def repo() -> InMemoryCardRepository:
+    return InMemoryCardRepository()
 
 
 def test_save_then_get_by_id_returns_card(repo):
