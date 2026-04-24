@@ -1,3 +1,7 @@
+from typing import Any
+
+import psycopg2
+
 from domain.entities.card import (
     Card,
     Edition,
@@ -8,8 +12,6 @@ from domain.entities.card import (
     Status,
 )
 from domain.repositories.card_repository import ICardRepository, SearchFilter
-from typing import Any
-import psycopg2
 
 
 class CardRepository(ICardRepository):
