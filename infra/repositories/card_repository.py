@@ -48,14 +48,6 @@ class InMemoryCardRepository(ICardRepository):
 
 
 class PostgresCardRepository(ICardRepository):
-    load_dotenv()
-
-    POSTGRES_USER: str = os.getenv("POSTGRES_USER") or ""
-    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD") or ""
-    POSTGRES_DB: str = os.getenv("POSTGRES_DB") or ""
-    DB_HOST: str = os.getenv("DB_HOST") or ""
-    DB_PORT: str = os.getenv("DB_PORT") or ""
-
     def _row_to_card(self, row: tuple[Any, ...] | None) -> Card | None:
         if row is None:
             return None
@@ -87,12 +79,20 @@ class PostgresCardRepository(ICardRepository):
         )
 
     def __init__(self) -> None:
+        load_dotenv()
+
+        POSTGRES_USER: str = os.getenv("POSTGRES_USER") or ""
+        POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD") or ""
+        POSTGRES_DB: str = os.getenv("POSTGRES_DB") or ""
+        DB_HOST: str = os.getenv("DB_HOST") or ""
+        DB_PORT: str = os.getenv("DB_PORT") or ""
+
         self.conn = psycopg2.connect(
-            database=PostgresCardRepository.POSTGRES_DB,
-            user=PostgresCardRepository.POSTGRES_USER,
-            password=PostgresCardRepository.POSTGRES_PASSWORD,
-            host=PostgresCardRepository.DB_HOST,
-            port=PostgresCardRepository.DB_PORT,
+            database=POSTGRES_DB,
+            user=POSTGRES_USER,
+            password=POSTGRES_PASSWORD,
+            host=DB_HOST,
+            port=DB_PORT,
         )
 
     def get_by_id(self, card_id: str) -> Card | None:
